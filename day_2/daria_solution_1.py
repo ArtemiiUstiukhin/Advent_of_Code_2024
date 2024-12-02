@@ -4,9 +4,6 @@ with open("day_2/test_input.txt", "r") as file:
     for line in file:
         levels = list(map(int, line.strip().split()))
         
-        if not levels:
-            continue
-        
         is_increasing = all(
             levels[i] < levels[i+1] and 1 <= levels[i+1] - levels[i] <= 3
             for i in range(len(levels) - 1)
