@@ -1,30 +1,21 @@
-safe_count = 0
+from collections import Counter
 
-def is_safe(levels):
-    if len(levels) <= 1:
-        return True
+# Parse into two lists
+list_1 = []
 
-    is_increasing = all(
-        levels[i] < levels[i+1] and 1 <= levels[i+1] - levels[i] <= 3
-        for i in range(len(levels) - 1)
-    )
-    is_decreasing = all(
-        levels[i] > levels[i+1] and 1 <= levels[i] - levels[i+1] <= 3
-        for i in range(len(levels) - 1)
-    )
-    return is_increasing or is_decreasing
+ctn = Counter()
 
-with open("day_2/test_input.txt", "r") as file:
+# Open and read the file
+with open("day_1/test_input.txt") as file:
     for line in file:
-        levels = list(map(int, line.strip().split()))
-        
-        if is_safe(levels):
-            safe_count += 1
-        else:
-            for bad_level in range(len(levels)):
-                line_without_bad_level = levels[:bad_level] + levels[bad_level+1:]
-                if is_safe(line_without_bad_level):
-                    safe_count += 1
-                    break 
+        i_1, i_2 = line.strip().split('   ')
+        list_1.append(int(i_1))
+        ctn[int(i_2)] += 1
 
-print(f"Number of safe reports: {safe_count}")
+# Find unique values in list_1 and count occurrences in list_2
+unique_list_1 = set(list_1)
+
+# Calculate similarity score
+similarity_score = sum(i * ctn[i] for i in unique_list_1)
+
+print(f"The similarity score is: {similarity_score}")
